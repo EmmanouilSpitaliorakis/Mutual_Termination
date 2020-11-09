@@ -76,10 +76,10 @@ def calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_da
 
 	calculate_label['text'] = f'£ {outstanding_value}'
 
-	return instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, admin_cost, total_cost, outstanding_value
+	return instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, total_cost, outstanding_value
 
 def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry):
-	instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, admin_cost, total_cost, outstanding_value = calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry)
+	instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, total_cost, outstanding_value = calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry)
 	file_dir = create_folder_on_os()
 
 	if os.path.exists(file_dir + 'excels'):
@@ -141,6 +141,8 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_e
 
 
 root = tk.Tk()
+root.iconbitmap(default = r'./img/hh.ico')
+root.title("Refunds Application")
 
 WIDTH = root.winfo_screenwidth()
 HEIGHT = root.winfo_screenheight()
