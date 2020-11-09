@@ -33,18 +33,18 @@ def create_folder_on_os():
 	os_base = platform.system()
 	if os_base != 'Darwin':
 		desktop_dir = os.environ["USERPROFILE"] + '\\Desktop\\'
-		if os.path.exists(desktop_dir + 'Mutu@l Termination\\'):
-			file_dir = desktop_dir + 'Mutu@l Termination\\'
+		if os.path.exists(desktop_dir + 'Mutual Termination\\'):
+			file_dir = desktop_dir + 'Mutual Termination\\'
 		else: 
-			os.makedirs(desktop_dir + 'Mutu@l Termination\\')
-			file_dir = desktop_dir + 'Mutu@l Termination\\'
+			os.makedirs(desktop_dir + 'Mutual Termination\\')
+			file_dir = desktop_dir + 'Mutual Termination\\'
 	else:
 		desktop_dir = os.environ['HOME'] + '/Desktop/'
-		if os.path.exists(desktop_dir + 'Mutu@l Termination/'):
-			file_dir = desktop_dir + 'Mutu@l Termination/'
+		if os.path.exists(desktop_dir + 'Mutual Termination/'):
+			file_dir = desktop_dir + 'Mutual Termination/'
 		else: 
-			os.makedirs(desktop_dir + 'Mutu@l Termination/')
-			file_dir = desktop_dir + 'Mutu@l Termination/'
+			os.makedirs(desktop_dir + 'Mutual Termination/')
+			file_dir = desktop_dir + 'Mutual Termination/'
 	return file_dir
 
 
@@ -95,8 +95,8 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_e
 	format_C_row = book.add_format({'align': 'center', 'border': 3, 'fg_color': '#ffffff'})
 	format_C_row_bold = book.add_format({'align': 'center', 'bold': True, 'border': 3, 'fg_color': '#ffffff'})
 	currency_format = book.add_format({'num_format': '£#,##0.00', 'align': 'center', 'border': 3, 'fg_color': '#ffffff'})
-	sheet.set_column('B:B', 490)
-	sheet.set_column('C:C', 230)
+	sheet.set_column('B:B', 43.91)
+	sheet.set_column('C:C', 22.90)
 
 	sheet.write('B3', Text.customer_name, format_B_row)
 	sheet.write('B4', Text.first_payment_day, format_B_row)
