@@ -18,6 +18,7 @@ class Text:
 	cost_per_day = 'Cost for each day:'
 	days_used = 'Actual days used:'
 	months_used = 'Actual months used:'
+	months_paid = 'Actual months paid:'
 	cost_used = 'Used cost:'
 	admin_cost = 'Admin fee:'
 	total_cost = 'The total cost (including "used cost" + "admin fee"):'

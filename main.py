@@ -52,34 +52,29 @@ def create_folder_on_os():
 
 def calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry):
 	first_payment_entry, start_date_entry, end_date_entry, date_of_termination_entry = transform_dates()
-	instalment_value = round(float(fee_entry / instalments_entry), 2)
 
+	instalment_value = float(fee_entry / instalments_entry)
 	contract_days = days_difference(start_date_entry, end_date_entry)
-
-	cost_per_day = round(float(fee_entry) / contract_days, 2)
-
+	cost_per_day = float(fee_entry) / contract_days
 	days_used = days_difference(start_date_entry, date_of_termination_entry)
-
-	months_used = (round(days_used / DAYS, 2) + 1)
-	
+	months_used = (days_used / DAYS) + 1
+	months_paid = round((days_difference(first_payment_entry, date_of_termination_entry) / DAYS) + 1,0)
 	cost_used = float(cost_per_day * days_used)
-
 	admin_cost = ADMIN_FEES
 	total_cost = cost_used + admin_cost
-
 	if instalments_entry == 1: 
 		amount_paid = instalment_value
 	else:
-		amount_paid = months_used * instalment_value
+		amount_paid = months_paid * instalment_value
 
-	outstanding_value = round(total_cost - amount_paid, 2)
+	outstanding_value = total_cost - amount_paid
 
 	calculate_label['text'] = f'£ {outstanding_value}'
 
-	return instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, total_cost, outstanding_value
+	return instalment_value, contract_days, cost_per_day, days_used, months_used, months_paid, cost_used, total_cost, outstanding_value
 
 def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry):
-	instalment_value, contract_days, cost_per_day, days_used, months_used, cost_used, total_cost, outstanding_value = calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry)
+	instalment_value, contract_days, cost_per_day, days_used, months_used, months_paid, cost_used, total_cost, outstanding_value = calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_date_entry, end_date_entry, date_of_termination_entry)
 	file_dir = create_folder_on_os()
 
 	if os.path.exists(file_dir + 'excels'):
@@ -109,13 +104,14 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_e
 	sheet.write('B11', Text.cost_per_day, format_B_row)
 	sheet.write('B12', Text.days_used, format_B_row)
 	sheet.write('B13', Text.months_used, format_B_row)
-	sheet.write('B14', Text.cost_used, format_B_row)
-	sheet.write('B15', Text.admin_cost, format_B_row)
-	sheet.write('B16', Text.total_cost, format_B_row)
+	sheet.write('B14', Text.months_paid, format_B_row)
+	sheet.write('B15', Text.cost_used, format_B_row)
+	sheet.write('B16', Text.admin_cost, format_B_row)
+	sheet.write('B17', Text.total_cost, format_B_row)
 	if outstanding_value < 0:
-		sheet.write('B17', Text.HH_outstanding_value, format_B_row)
+		sheet.write('B18', Text.HH_outstanding_value, format_B_row)
 	else:
-		sheet.write('B17', Text.customer_outstanding_value, format_B_row)
+		sheet.write('B18', Text.customer_outstanding_value, format_B_row)
 
 
 	sheet.write('C3', customer_name_entry.get(), format_C_row_bold)
@@ -129,10 +125,11 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, start_date_e
 	sheet.write('C11', f'£ {cost_per_day}', currency_format)
 	sheet.write('C12', days_used, format_C_row)
 	sheet.write('C13', months_used, format_C_row)
-	sheet.write('C14', f'£ {round(total_cost, 2)}', currency_format)
-	sheet.write('C15', f'£ {ADMIN_FEES}', currency_format)
-	sheet.write('C16', f'£ {round(total_cost, 2)}', currency_format)
-	sheet.write('C17', f'£ {abs(outstanding_value)}', currency_format)
+	sheet.write('C14', months_paid, format_C_row)
+	sheet.write('C15', f'£ {cost_used}', currency_format)
+	sheet.write('C16', f'£ {ADMIN_FEES}', currency_format)
+	sheet.write('C17', f'£ {total_cost}', currency_format)
+	sheet.write('C18', f'£ {abs(outstanding_value)}', currency_format)
 
 
 
