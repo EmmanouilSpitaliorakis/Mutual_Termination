@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['main.py'],
+a = Analysis(['Termination\\img\\hh.ico', 'img', 'main.py'],
              pathex=['C:\\Users\\Manuel\\Desktop\\Mutual Termination'],
              binaries=[],
              datas=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False , icon='C:\\Users\\Manuel\\Desktop\\Mutual Termination\\img\\hh.ico')
+          console=False , icon='C:\\Users\\Manuel\\Desktop\\Mutual')

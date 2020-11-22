@@ -57,8 +57,8 @@ def calculate_refund(first_payment_entry, fee_entry, instalments_entry, start_da
 	contract_days = days_difference(start_date_entry, end_date_entry)
 	cost_per_day = float(fee_entry) / contract_days
 	days_used = days_difference(start_date_entry, date_of_termination_entry)
-	months_used = (days_used / DAYS) + 1
-	months_paid = round((days_difference(first_payment_entry, date_of_termination_entry) / DAYS) + 1,0)
+	months_used = (days_used / DAYS)
+	months_paid = round((days_difference(first_payment_entry, date_of_termination_entry) / DAYS)+1.0)
 	cost_used = float(cost_per_day * days_used)
 	admin_cost = ADMIN_FEES
 	total_cost = cost_used + admin_cost
