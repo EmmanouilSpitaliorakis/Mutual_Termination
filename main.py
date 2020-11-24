@@ -65,7 +65,7 @@ def calculate_refund(first_payment_entry, fee_entry, instalments_entry, total_pa
 	amount_paid = total_payment_entry
 	outstanding_value = total_cost - amount_paid
 
-	calculate_label['text'] = f'£ {outstanding_value}'
+	calculate_label['text'] = '£ {:.2f}'.format(outstanding_value)
 
 	return instalment_value, contract_days, cost_per_day, days_used, months_used, months_paid, cost_used, total_cost, outstanding_value
 
@@ -128,7 +128,7 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, total_paymen
 	sheet.write(f'C17', float(cost_used), format_C_row)
 	sheet.write(f'C18', float(ADMIN_FEES), format_C_row)
 	sheet.write(f'C19', float(total_cost), format_C_row)
-	sheet.write(f'C20', float(abs(outstanding_value)), format_C_row)
+	sheet.write(f'C20', '£ {:.2f}'.format(outstanding_value), format_C_row)
 
 
 
