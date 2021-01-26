@@ -13,13 +13,13 @@ today = today.strftime("%d%m%Y")
 
 
 def useAdmin(first_payment_day, date_of_termination):
-	if ( first_payment_day - date_of_termination).days >= DAYS:
+	if (date_of_termination - first_payment_day).days >= DAYS:
 		return ADMIN_FEES
 	else:
 		return 0
 
 def days_difference(first_date, second_date):
-	return (first_date - second_date).days
+	return abs((first_date - second_date).days)
 
 def transform_dates():
 	first_payment_obj = datetime.strptime(first_payment_entry.get(), '%d/%m/%Y').date()
@@ -54,16 +54,16 @@ def calculate_refund(first_payment_entry, fee_entry, instalments_entry, total_pa
 	first_payment_entry, start_date_entry, end_date_entry, date_of_termination_entry = transform_dates()
 
 	instalment_value = float(fee_entry / instalments_entry)
-	contract_days = days_difference(end_date_entry, start_date_entry)
+	contract_days = days_difference(start_date_entry, end_date_entry)
 	cost_per_day = float(fee_entry) / contract_days
-	days_used = days_difference(date_of_termination_entry, start_date_entry)
+	days_used = days_difference(start_date_entry, date_of_termination_entry)
 	months_used = (days_used / DAYS)
-	months_paid = round((days_difference(date_of_termination_entry, first_payment_entry) / DAYS)+1.0)
+	months_paid = round((days_difference(first_payment_entry, date_of_termination_entry) / DAYS)+1.0)
 	cost_used = float(cost_per_day) * days_used
 	admin_cost = ADMIN_FEES
 	total_cost = cost_used + admin_cost
 	amount_paid = total_payment_entry
-	outstanding_value = total_cost - amount_paid
+	outstanding_value = total_cost - amount_paid  ####### outstanding_value = amount_paid - total_cost (bugged fixed!) 
 
 	calculate_label['text'] = '£ {:.2f}'.format(abs(outstanding_value))
 
@@ -130,27 +130,7 @@ def create_excel(first_payment_entry, fee_entry, instalments_entry, total_paymen
 	sheet.write(f'C19', '£ {:.2f}'.format(total_cost), format_C_row)
 	sheet.write(f'C20', '£ {:.2f}'.format(abs(outstanding_value)), format_C_row)
 
-	# /* Pevious Version */
-	# sheet.write(f'C3', customer_name_entry.get(), format_C_row_bold)
-	# sheet.write(f'C4', first_payment_entry, format_C_row)
-	# sheet.write(f'C5', float(fee_entry), format_C_row)
-	# sheet.write(f'C6', instalments_entry, format_C_row)
-	# sheet.write(f'C7', instalment_value, format_C_row)
-	# sheet.write(f'C8', total_payment_entry, format_C_row)
-	# sheet.write(f'C9', start_date_entry, format_C_row)
-	# sheet.write(f'C10', end_date_entry, format_C_row)
-	# sheet.write(f'C11', date_of_termination_entry, format_C_row)
-	# sheet.write(f'C12', contract_days, format_C_row)
-	# sheet.write(f'C13', float(cost_per_day), format_C_row)
-	# sheet.write(f'C14', days_used, format_C_row)
-	# sheet.write(f'C15', months_used, format_C_row)
-	# sheet.write(f'C16', months_paid, format_C_row)
-	# sheet.write(f'C17', float(cost_used), format_C_row)
-	# sheet.write(f'C18', float(ADMIN_FEES), format_C_row)
-	# sheet.write(f'C19', float(total_cost), format_C_row)
-	# sheet.write(f'C20', '£ {:.2f}'.format(abs(outstanding_value)), format_C_row)
-
-
+                
 
 	book.close()
 	messagebox.showinfo("Export Excel", "Excel Exported.")
@@ -164,7 +144,7 @@ WIDTH = root.winfo_screenwidth()
 HEIGHT = root.winfo_screenheight()
 widget_height = 0.07
 
-canvas = tk.Canvas(root, height = HEIGHT * 0.50, width = WIDTH * 0.55)
+canvas = tk.Canvas(root, height = HEIGHT * 0.50, width = WIDTH * 0.70)
 canvas.pack()
 
 frame = tk.Frame(canvas, bd = 5, bg = '#999966')
@@ -222,3 +202,4 @@ export_button = tk.Button(frame, text = "Export Excel", font = ('Arial', 12), bg
 export_button.place(relx = 0.70, rely = 8*widget_height + 0.32,  relheight = widget_height, relwidth = 0.12)
 
 root.mainloop()
+
