@@ -12,3 +12,10 @@
   * platform
   * tkinter
   * datetime
+
+
+### I have created an "requirements.txt" file that you can install all the necessary libraries by running the following command on your terminal
+
+```console
+pip install -r /path/to/requirements.txt
+```
